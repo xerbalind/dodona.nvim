@@ -9,8 +9,11 @@ class Api:
             "Authorization": token,
         }
 
-    def get(self, url):
-        return requests.get(f"{self.base_url}/{url}", headers=self.headers).json()
+    def get(self, url, full_path=False):
+        if not full_path:
+            return requests.get(f"{self.base_url}/{url}", headers=self.headers).json()
+        else:
+            return requests.get(url, headers=self.headers).json()
 
     def post(self, url, body):
         return requests.post(
