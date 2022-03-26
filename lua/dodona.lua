@@ -1,23 +1,26 @@
+local api = require("dodona.api")
+local telescope = require("dodona.telescope")
+local manager = require("dodona.manager")
+
 local fn = vim.fn
-local command = "python " .. fn.stdpath("data") .. "/site/pack/packer/start/dodona.nvim" .. "/scripts/python/main.py "
 
 local M = {}
 
-local function execute(options)
-	vim.cmd("15split term://" .. command .. options)
+function M.test()
+	telescope.telescope()
 end
 
 function M.submit()
 	local file = fn.expand("%")
-	local options = "--command submit --path " .. file
-	execute(options)
+	manager.evalSubmission(file)
 end
 
 function M.initActivities()
-	local series_id = fn.input("Series id: ")
-	local current_dir = fn.getcwd()
-	local options = "--command init --series " .. series_id .. " --path " .. current_dir
-	execute(options)
+	telescope.initActivities()
+end
+
+function M.setup(vars)
+	api.setup(vars)
 end
 
 return M
