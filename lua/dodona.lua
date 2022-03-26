@@ -4,8 +4,7 @@ local command = "python " .. fn.stdpath("data") .. "/site/pack/packer/start/dodo
 local M = {}
 
 local function execute(options)
-	vim.cmd("15split | terminal")
-	vim.cmd(':call jobsend(b:terminal_job_id, " ' .. command .. options .. ' \\n)"')
+	vim.cmd("15split term://" .. command .. options)
 end
 
 function M.submit()
