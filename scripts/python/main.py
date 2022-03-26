@@ -7,8 +7,7 @@ import argparse
 
 # Config
 
-# TOKEN = "YiYx23h1ZA5gabUbliAx3KZtPuzf9068Cf8vgUndH2g"
-# BASE_URL = "https://dodona.ugent.be"
+
 SERIE = 12986
 CONFIG_PATH = expanduser("~") + "/.dodona-config"
 
