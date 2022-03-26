@@ -5,7 +5,7 @@ local M = {}
 
 local function execute(options)
 	vim.cmd("15split | terminal")
-	vim.cmd(':call jobsend(b:terminal_job_id, " ' .. command .. options .. '"\\n)')
+	vim.cmd(':call jobsend(b:terminal_job_id, " ' .. command .. options .. '\\n)"')
 end
 
 function M.submit()
