@@ -12,7 +12,7 @@ class SubmissionManager:
                 "exercise_id": submission.activity,
             },
         }
-        print(self.api.post("submissions.json", body))
+        return self.api.post("submissions.json", body)
 
 
 class Submission:

@@ -4,11 +4,11 @@ from activitymanager import ActivityManager
 from submissionManager import *
 from api import Api
 import argparse
+import time
 
 # Config
 
 
-SERIE = 12986
 CONFIG_PATH = expanduser("~") + "/.dodona-config"
 
 
@@ -22,6 +22,22 @@ def structInit(activities, path):
         if not exists(file_name):
             with open(os.path.join(path, file_name), "w") as f:
                 f.write(f"#{activity['url'][:-5]}\n")
+
+
+# Send submission to dodona using api
+def evaluateSubmission(manager, submission):
+    response = manager.create(submission)
+
+    print("Solution has been submitted")
+    print("Evaluating...")
+    for _ in range(10):
+        time.sleep(2)  # sleep 2 seconds before checking if solution has been executed
+        result = manager.api.get(response["url"])
+        if result["status"] not in ["running", "queued"]:
+            print(result)
+            return
+
+    print("timeout!!")
 
 
 if __name__ == "__main__":
@@ -57,4 +73,4 @@ if __name__ == "__main__":
     elif args.command == "submit":
         submission = Submission(args.path)
         manager = SubmissionManager(api)
-        manager.create(submission)
+        evaluateSubmission(manager, submission)
