@@ -27,7 +27,7 @@ def structInit(activities, path):
 
         if not exists(file_name):
             with open(os.path.join(path, file_name), "w") as f:
-                f.write(f"#{activity['url'][:-5]}\n")
+                f.write(f"#{activity['url'][:-5]}/\n")
 
     print(f"{bcolors.OKGREEN}Activity files successfully created{bcolors.ENDC}")
 

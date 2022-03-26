@@ -20,8 +20,8 @@ class Submission:
         invoer = open(file, "r")
         url = invoer.readline().strip()
         parts = url.split("/")
-        self.course = int(parts[-5])
-        self.series = int(parts[-3])
-        self.activity = int(parts[-1])
+        self.course = int(parts[-6])
+        self.series = int(parts[-4])
+        self.activity = int(parts[-2])
 
         self.code = invoer.read()
