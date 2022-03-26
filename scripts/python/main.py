@@ -21,9 +21,15 @@ class bcolors:
 # Create Files in series
 def structInit(activities, path):
     for i, activity in enumerate(activities):
-        file_name = (
-            f"{i}_{activity['name']}.{activity['programming_language']['extension']}"
-        ).replace(" ", "_")
+        try:
+            file_name = (
+                f"{i}_{activity['name']}.{activity['programming_language']['extension']}"
+            ).replace(" ", "_")
+        except KeyError:
+            print(
+                f"{bcolors.FAIL}Could not create files. Maybe series id is incorrect!{bcolors.ENDC}"
+            )
+            return
 
         if not exists(file_name):
             with open(os.path.join(path, file_name), "w") as f:
