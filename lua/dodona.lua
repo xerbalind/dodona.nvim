@@ -12,7 +12,8 @@ end
 
 function M.submit()
 	local file = fn.expand("%")
-	manager.evalSubmission(file)
+	local extension = fn.expand("%:e")
+	manager.evalSubmission(file, extension)
 end
 
 function M.initActivities()

@@ -8,8 +8,11 @@ function M.split(s, delimiter)
 	return result
 end
 
-function M.wait(seconds)
-	os.execute("sleep " .. tonumber(seconds))
+function M.lines(s)
+	if s:sub(-1) ~= "\n" then
+		s = s .. "\n"
+	end
+	return s:gmatch("(.-)\n")
 end
 
 return M

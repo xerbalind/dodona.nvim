@@ -1,6 +1,7 @@
 local api = require("dodona.api")
 local notify = require("notify")
 local utils = require("dodona.utils")
+local filter = require("dodona.filter")
 
 local M = {}
 
@@ -34,7 +35,7 @@ local function check_evaluated(url)
 	-- Waits 2000ms, then repeats every 1000ms until timer:close().
 	timer:start(
 		2000,
-		1000,
+		2000,
 		vim.schedule_wrap(function()
 			local result = api.get(url, true)
 
@@ -57,26 +58,27 @@ local function check_evaluated(url)
 	)
 end
 
-function M.evalSubmission(filename)
+function M.evalSubmission(filename, ext)
 	local file = io.open(filename, "r")
 	local url = utils.split(file:read():reverse(), "/")
+	local filtered = filter.filter(ext, file:read("*a"))
 	local body = {
 		submission = {
-			code = file:read("*a"),
+			code = filtered,
 			course_id = tonumber(url[6]:reverse()),
 			series_id = tonumber(url[4]:reverse()),
 			exercise_id = tonumber(url[2]:reverse()),
 		},
 	}
 	file:close()
+
 	local response = api.post("/submissions.json", body)
 	if response.status == "ok" then
 		notify("Solution has been submitted \nEvaluating...", "warn")
+		check_evaluated(response.url)
 	else
 		notify("Submit failed!!!", "error")
 	end
-
-	check_evaluated(response.url)
 end
 
 return M
