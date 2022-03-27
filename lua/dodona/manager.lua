@@ -31,7 +31,7 @@ end
 local function check_evaluated(url)
 	local timer = vim.loop.new_timer()
 	local i = 0
-	-- Waits 1000ms, then repeats every 750ms until timer:close().
+	-- Waits 2000ms, then repeats every 1000ms until timer:close().
 	timer:start(
 		2000,
 		1000,
@@ -59,13 +59,13 @@ end
 
 function M.evalSubmission(filename)
 	local file = io.open(filename, "r")
-	local url = utils.split(file:read(), "/")
+	local url = utils.split(file:read():reverse(), "/")
 	local body = {
 		submission = {
 			code = file:read("*a"),
-			course_id = tonumber(url[6]),
-			series_id = tonumber(url[8]),
-			exercise_id = tonumber(url[10]),
+			course_id = tonumber(url[6]:reverse()),
+			series_id = tonumber(url[4]:reverse()),
+			exercise_id = tonumber(url[2]:reverse()),
 		},
 	}
 	file:close()
