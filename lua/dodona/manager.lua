@@ -101,12 +101,12 @@ local function download(base_url, w)
 end
 
 function M.downloadData(url)
-	local response = api.get(string.sub(url, url:find("https"), -1) .. ".json", true)
+	local response = api.get(string.sub(url, url:find("https"), -2) .. ".json", true)
 
 	local description = api.gethtml(response.description_url)
 	local handled = {}
-	for w in string.gmatch(description, '"media/workdir/.-"') do
-		if not utils.has_value(handled, w) then
+	for w in string.gmatch(description, '"media/.-"') do
+		if not utils.has_value(handled, w) and not w:find(".png") then
 			download(response.description_url, w)
 			table.insert(handled, w)
 		end
