@@ -15,9 +15,9 @@
 ## Setup
 ```lua
 	require("dodona").setup({
-	token = "<PUT TOKEN HERE>",
-	base_url = "https://dodona.ugent.be",
-})
+		token = "<PUT TOKEN HERE>",
+		base_url = "https://dodona.ugent.be",
+	})
 ```
 ## Commands
 - DodonaSubmit : Evaluate current buffer by sending code to dodona <br>
