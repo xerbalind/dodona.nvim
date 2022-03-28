@@ -101,7 +101,7 @@ local function download(base_url, w)
 end
 
 function M.downloadData(url)
-	local response = api.get(string.sub(url, url:find("https"), -2) .. ".json", true)
+	local response = api.get(string.sub(url, url:find("https"), -1):gsub("/[^/]*$", "") .. ".json", true)
 
 	local description = api.gethtml(response.description_url)
 	local handled = {}
