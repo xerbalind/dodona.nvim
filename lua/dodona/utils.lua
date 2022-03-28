@@ -15,4 +15,22 @@ function M.lines(s)
 	return s:gmatch("(.-)\n")
 end
 
+function M.readbuffer(s, e)
+	if e == -1 then
+		e = vim.api.nvim_buf_line_count(0)
+	end
+	local content = vim.api.nvim_buf_get_lines(0, s, e, false)
+	return content
+end
+
+function M.has_value(tab, val)
+	for index, value in ipairs(tab) do
+		if value == val then
+			return true
+		end
+	end
+
+	return false
+end
+
 return M

@@ -2,6 +2,7 @@ local api = require("dodona.api")
 local notify = require("notify")
 local utils = require("dodona.utils")
 local filter = require("dodona.filter")
+local Job = require("plenary.job")
 
 local M = {}
 
@@ -78,6 +79,37 @@ function M.evalSubmission(filename, ext)
 		check_evaluated(response.url)
 	else
 		notify("Submit failed!!!", "error")
+	end
+end
+
+local function download(base_url, w)
+	Job
+		:new({
+			command = "wget",
+			args = { base_url .. string.sub(w, 2, -2) },
+			cwd = vim.fn.getcwd(),
+			env = { ["a"] = "b" },
+			on_exit = function(j, return_val)
+				if return_val == 0 then
+					notify(string.sub(w, w:find("/[^/]*$") + 1, -2) .. " downloaded", "info")
+				else
+					notify("error when getting " .. string.sub(w, w:find("/[^/]*$") + 1, -2), "error")
+				end
+			end,
+		})
+		:sync() -- or start()
+end
+
+function M.downloadData(url)
+	local response = api.get(string.sub(url, url:find("https"), -1) .. ".json", true)
+
+	local description = api.gethtml(response.description_url)
+	local handled = {}
+	for w in string.gmatch(description, '"media/workdir/.-"') do
+		if not utils.has_value(handled, w) then
+			download(response.description_url, w)
+			table.insert(handled, w)
+		end
 	end
 end
 

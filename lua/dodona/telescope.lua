@@ -26,7 +26,7 @@ end
 local show = function(opts, finder)
 	opts = opts or {}
 	pickers.new(opts, {
-		prompt_title = "colors",
+		prompt_title = M.current_search,
 		finder = finder,
 		attach_mappings = attach_mappings,
 		sorter = conf.generic_sorter(opts),

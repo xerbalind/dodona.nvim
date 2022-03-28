@@ -26,6 +26,16 @@ function M.get(url, full_url)
 	return fn.json_decode(output.body)
 end
 
+function M.gethtml(url)
+	local output = curl.get({
+		url = url,
+		headers = {
+			Authorization = config.token,
+		},
+	})
+	return output.body
+end
+
 function M.post(url, body)
 	local json = fn.json_encode(body)
 	local output = curl.post({

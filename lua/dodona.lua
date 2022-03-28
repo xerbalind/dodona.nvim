@@ -1,6 +1,7 @@
 local api = require("dodona.api")
 local telescope = require("dodona.telescope")
 local manager = require("dodona.manager")
+local utils = require("dodona.utils")
 
 local fn = vim.fn
 
@@ -18,6 +19,10 @@ end
 
 function M.initActivities()
 	telescope.initActivities()
+end
+
+function M.download()
+	manager.downloadData(utils.readbuffer(0, 1)[1])
 end
 
 function M.setup(vars)
