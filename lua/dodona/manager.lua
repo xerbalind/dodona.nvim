@@ -19,7 +19,7 @@ function M.subscribedCourses()
 end
 
 function M.createFiles(activities)
-	local dir = vim.fn.getcwd()
+	local dir = vim.fn.expand("%:p:h")
 	for key, activity in ipairs(activities) do
 		local filename = key .. "_" .. activity.name .. "." .. activity.programming_language.extension
 		local file = io.open(dir .. "/" .. filename:gsub(" ", "_"), "a")
@@ -87,7 +87,7 @@ local function download(base_url, w)
 		:new({
 			command = "wget",
 			args = { base_url .. string.sub(w, 2, -2) },
-			cwd = vim.fn.getcwd(),
+			cwd = vim.fn.expand("%:p:h"),
 			env = { ["a"] = "b" },
 			on_exit = function(j, return_val)
 				if return_val == 0 then
@@ -106,7 +106,7 @@ function M.downloadData(url)
 	local description = api.gethtml(response.description_url)
 	local handled = {}
 	for w in string.gmatch(description, '"media/.-"') do
-		if not utils.has_value(handled, w) and not w:find(".png") then
+		if not utils.has_value(handled, w) and not w:find(".png") and not w:find(".jpg") then
 			download(response.description_url, w)
 			table.insert(handled, w)
 		end
