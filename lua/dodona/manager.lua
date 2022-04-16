@@ -47,8 +47,11 @@ local function check_evaluated(url)
 				else
 					color = "error"
 				end
-				notify(result.status .. ": " .. result.summary .. "\n" .. string.sub(result.url, 1, -6), color)
 				timer:close()
+				notify(
+					result.status .. ": " .. tostring(result.summary) .. "\n" .. string.sub(result.url, 1, -6),
+					color
+				)
 			end
 
 			if i > 10 then
