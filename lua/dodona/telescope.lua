@@ -9,7 +9,7 @@ local current_search
 
 local M = {}
 
-local attach_mappings = function(prompt_bufnr, map)
+local attach_mappings = function(prompt_bufnr, _)
 	actions.select_default:replace(function()
 		actions.close(prompt_bufnr)
 		local selection = action_state.get_selected_entry()

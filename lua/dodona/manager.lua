@@ -23,10 +23,13 @@ function M.createFiles(activities)
 	for key, activity in ipairs(activities) do
 		local filename = key .. "_" .. activity.name .. "." .. activity.programming_language.extension
 		local file = io.open(dir .. "/" .. filename:gsub(" ", "_"), "a")
-		file:write(string.sub(activity.url, 1, -6) .. "/\n")
-		file:close()
 
-		notify(activity.name .. " file created", "info")
+    if file ~= nil then
+      file:write(string.sub(activity.url, 1, -6) .. "/\n")
+      file:close()
+
+      notify(activity.name .. " file created", "info")
+    end
 	end
 end
 
@@ -64,6 +67,9 @@ end
 
 function M.evalSubmission(filename, ext)
 	local file = io.open(filename, "r")
+
+  if file == nil then return end
+
 	local url = utils.split(file:read():reverse(), "/")
 	local filtered = filter.filter(ext, file:read("*a"))
 	local body = {
@@ -92,7 +98,7 @@ local function download(base_url, w)
 			args = { base_url .. string.sub(w, 2, -2) },
 			cwd = vim.fn.expand("%:p:h"),
 			env = { ["a"] = "b" },
-			on_exit = function(j, return_val)
+			on_exit = function(_, return_val)
 				if return_val == 0 then
 					notify(string.sub(w, w:find("/[^/]*$") + 1, -2) .. " downloaded", "info")
 				else
