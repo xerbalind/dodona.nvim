@@ -6,16 +6,29 @@ local Job = require("plenary.job")
 
 local M = {}
 
+-- NOTE: next 3 functions can be refactored
 function M.getActivities(serie)
-	return api.get("/series/" .. serie .. "/activities.json", false)
+	local response =  api.get("/series/" .. serie .. "/activities.json", false)
+  if response.status == 200 then
+    return response.body
+  end
+  return {}
 end
 
 function M.getSeries(course)
-	return api.get("/courses/" .. course .. "/series.json", false)
+	local response  api.get("/courses/" .. course .. "/series.json", false)
+  if response.status == 200 then
+    return response.body
+  end
+  return {}
 end
 
 function M.subscribedCourses()
-	return api.get("", false).user.subscribed_courses
+	local response = api.get("", false)
+  if response.status == 200 then
+    return response.body.user.subscribed_courses
+  end
+  return {}
 end
 
 function M.createFiles(activities)
@@ -41,25 +54,26 @@ local function check_evaluated(url)
 		2000,
 		2000,
 		vim.schedule_wrap(function()
-			local result = api.get(url, true)
+			local response = api.get(url, true)
 
-			if result.status ~= "running" and result.status ~= "queued" then
+			if i > 10 or response.status ~= 200 then
+				timer:close() -- Always close handles to avoid leaks.
+			end
+
+			if response.body.status ~= "running" and response.body.status ~= "queued" then
 				local color
-				if result.accepted then
+				if response.body.accepted then
 					color = "info"
 				else
 					color = "error"
 				end
 				timer:close()
 				notify(
-					result.status .. ": " .. tostring(result.summary) .. "\n" .. string.sub(result.url, 1, -6),
+					response.body.status .. ": " .. tostring(response.body.summary) .. "\n" .. string.sub(response.body.url, 1, -6),
 					color
 				)
 			end
 
-			if i > 10 then
-				timer:close() -- Always close handles to avoid leaks.
-			end
 			i = i + 1
 		end)
 	)
@@ -83,9 +97,9 @@ function M.evalSubmission(filename, ext)
 	file:close()
 
 	local response = api.post("/submissions.json", body)
-	if response.status == "ok" then
+	if response.body.status == "ok" and response.status == 200 then
 		notify("Solution has been submitted \nEvaluating...", "warn")
-		check_evaluated(response.url)
+		check_evaluated(response.body.url)
 	else
 		notify("Submit failed!!!", "error")
 	end
@@ -112,11 +126,13 @@ end
 function M.downloadData(url)
 	local response = api.get(string.sub(url, url:find("https"), -1):gsub("/[^/]*$", "") .. ".json", true)
 
-	local description = api.gethtml(response.description_url)
+  if response.status ~= 200 then return end
+
+	local description = api.gethtml(response.body.description_url).body
 	local handled = {}
 	for w in string.gmatch(description, '"media/.-"') do
 		if not utils.has_value(handled, w) and not w:find(".png") and not w:find(".jpg") then
-			download(response.description_url, w)
+			download(response.body.description_url, w)
 			table.insert(handled, w)
 		end
 	end

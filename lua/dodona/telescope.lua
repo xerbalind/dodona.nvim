@@ -39,19 +39,21 @@ function M.initActivities()
 end
 
 function M.show(results)
-	show(
-		{},
-		finders.new_table({
-			results = results,
-			entry_maker = function(entry)
-				return {
-					value = entry,
-					display = entry.name,
-					ordinal = entry.name,
-				}
-			end,
-		})
-	)
+  --[[ if #results > 0 then ]]
+    show(
+      {},
+      finders.new_table({
+        results = results,
+        entry_maker = function(entry)
+          return {
+            value = entry,
+            display = entry.name,
+            ordinal = entry.name,
+          }
+        end,
+      })
+    )
+  --[[ end ]]
 end
 
 return M
