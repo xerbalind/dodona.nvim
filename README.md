@@ -1,7 +1,7 @@
 # dodona.nvim
 
 ## Installation
-packer installation is currently supported:
+packer installation:
 ```lua
 	use({
 		"xerbalind/dodona.nvim",
