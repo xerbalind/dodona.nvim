@@ -7,7 +7,7 @@ local config = {}
 
 local function evaluate(result)
   if result.status ~= 200 then
-    vim.notify("Cannot execute request. Do you have internet connection?")
+    vim.notify("Cannot execute request.")
     if result.status == 401 then
       vim.notify("Unauthorized request: make sure you have working token.")
     end
