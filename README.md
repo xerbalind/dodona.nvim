@@ -4,7 +4,7 @@
 **Only** packer installation is currently supported:
 ```lua
 	use({
-		"xand203/dodona.nvim",
+		"xerbalind/dodona.nvim",
 		requires = {
 			"rcarriga/nvim-notify",
 			"nvim-telescope/telescope.nvim",
