@@ -16,7 +16,7 @@ function M.getActivities(serie)
 end
 
 function M.getSeries(course)
-	local response  api.get("/courses/" .. course .. "/series.json", false)
+	local response = api.get("/courses/" .. course .. "/series.json", false)
   if response.status == 200 then
     return response.body
   end
