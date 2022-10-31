@@ -39,6 +39,7 @@ function M.createFiles(activities)
 
     if file ~= nil then
       file:write(string.sub(activity.url, 1, -6) .. "/\n")
+      file:write('\n' .. activity.boilerplate)
       file:close()
 
       notify(activity.name .. " file created", "info")
