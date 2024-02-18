@@ -45,7 +45,7 @@ function M.gethtml(url)
 			Authorization = config.token,
 		},
 	})
-  return evaluate(output)
+  return output
 end
 
 function M.post(url, body)
