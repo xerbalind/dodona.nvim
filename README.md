@@ -23,6 +23,10 @@ packer installation:
 Every code file you want to perform commands on (see next section) needs the corresponding exercise url as the first line.
 Something like `https://dodona.be/nl/courses/3363/series/36080/activities/1144070225/` (just copy from browser), this url can be commented.
 
+Optional config option:
+	`go_cmd = "<COMMAND>"`.
+Executes the command with the url when executing `DodonaGo`. For example if `<command>` is `firefox`: `firefox https://...`. Default is `gio open`
+
 ## Commands
 - DodonaSubmit : Evaluate current buffer by sending code to dodona <br>
                 (Make sure first line is full url to activity page (can be commented))
