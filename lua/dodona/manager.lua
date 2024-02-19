@@ -39,7 +39,8 @@ function M.createFiles(activities)
 		local file = io.open(dir .. "/" .. filename:gsub(" ", "_"), "a")
 
     if file ~= nil then
-      file:write(comments[activity.programming_language.name] .. string.sub(activity.url, 1, -6) .. "/\n")
+      local c = comments[activity.programming_language.name]
+      file:write((c ~= nil and c or "") .. string.sub(activity.url, 1, -6) .. "/\n")
       if activity.boilerplate ~= vim.NIL then
         file:write('\n' .. activity.boilerplate)
       end

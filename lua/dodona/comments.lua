@@ -2,7 +2,11 @@ local M = {
   java = "//",
   python = "#",
   haskell = "--",
-  c = "//"
+  c = "//",
+  prolog = "% ",
+  bash = "#",
+  sh = "#",
+  javascript = "//"
 }
 
 return M
