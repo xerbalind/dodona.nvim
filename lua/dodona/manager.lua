@@ -33,22 +33,24 @@ function M.subscribedCourses()
 end
 
 function M.createFiles(activities)
-	local dir = vim.fn.expand("%:p:h")
-	for key, activity in ipairs(activities) do
-		local filename = key .. "_" .. activity.name .. "." .. activity.programming_language.extension
-		local file = io.open(dir .. "/" .. filename:gsub(" ", "_"), "a")
+    local dir = vim.fn.expand("%:p:h")
 
-    if file ~= nil then
-      local c = comments[activity.programming_language.name]
-      file:write((c ~= nil and c or "") .. string.sub(activity.url, 1, -6) .. "/\n")
-      if activity.boilerplate ~= vim.NIL then
-        file:write('\n' .. activity.boilerplate)
-      end
-      file:close()
+    for key, activity in ipairs(activities) do
+        if activity.programming_language ~= nil then
+            local filename = key .. "_" .. activity.name .. "." .. activity.programming_language.extension
+            local file = io.open(dir .. "/" .. filename:gsub(" ", "_"), "a") 
 
-      notify(dir .. "/" .. filename:gsub(" ","_") .. " file created", "info")
+            if file ~= nil then
+                local c = comments[activity.programming_language.name]
+                file:write((c ~= nil and c or "") .. string.sub(activity.url, 1, -6) .. "/\n")
+                if activity.boilerplate ~= vim.NIL then
+                    file:write('\n' .. activity.boilerplate)
+                end
+                file:close()
+                notify(dir .. "/" .. filename:gsub(" ", "_") .. " file created", "info")
+            end
+        end
     end
-	end
 end
 
 local function check_evaluated(url)
