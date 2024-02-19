@@ -35,8 +35,11 @@ end
 function M.createFiles(activities)
 	local dir = vim.fn.expand("%:p:h")
 	for key, activity in ipairs(activities) do
-		local filename = key .. "_" .. activity.name .. "." .. activity.programming_language.extension
-		local file = io.open(dir .. "/" .. filename:gsub(" ", "_"), "a")
+        
+        if activity.programming_language ~= nil then
+            local filename = key .. "_" .. activity.name .. "." .. activity.programming_language.extension
+            local file = io.open(dir .. "/" .. filename:gsub(" ", "_"), "a")
+        end
 
     if file ~= nil then
       local c = comments[activity.programming_language.name]
