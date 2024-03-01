@@ -23,6 +23,7 @@ end
 
 -- OPTIMIZE:these calls should be async
 function M.get(url, full_url)
+
 	if not full_url then
 		url = config.base_url .. url
 	end

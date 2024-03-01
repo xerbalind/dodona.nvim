@@ -15,7 +15,6 @@ packer installation:
 ## Setup
 ```lua
 	require("dodona").setup({
-		token = "<PUT TOKEN HERE>",
 		base_url = "https://dodona.be",
 	})
 ```
@@ -33,3 +32,4 @@ Executes the command with the url when executing `DodonaGo`. For example if `<co
 - DodonaInitActivities : create all exercise files in current dir. Navigation to the right serie is done with telescope.
 - DodonaDownload: download all linked files from exercise description (url needed as first line).
 - DodonaGo: go to exercise page (url needed as first line).
+- DodonaSetToken: set your token to a new value.

@@ -26,7 +26,7 @@ end
 
 function M.subscribedCourses()
 	local response = api.get("", false)
-  if response.status == 200 then
+  if response.status == 200 and response.body.user then
     return response.body.user.subscribed_courses
   end
   return {}
